@@ -20,6 +20,7 @@ import secrets
 import string
 import base64
 import json
+import twitter
 from requests_oauthlib import OAuth1
 
 def _generate_signature(data, key):
@@ -37,7 +38,9 @@ def _generate_nonce():
     secret = secrets.token_hex(16)
     return str(secret)
 
-
+def postImage(src, consumerKey, cons_secret, myToken, tok_secret): # returns media id
+    api = twitter.Api(consumer_key = consumerKey, consumer_secret = cons_secret, access_token_key = myToken, access_token_secret=tok_secret)
+    return api.UploadMediaChunked(media=src)
 
 def sendTweet():
     debug = False
@@ -156,8 +159,13 @@ def sendTweet():
     if debug:
         conn = http.client.HTTPConnection("localhost:9001")
 
+    # upload media
+    image_id = postImage("hello.png", consumerKey, cons_secret, myToken, tok_secret)
+
+
     headers = {"Accept": "*/*", "Connection": "close", "User-Agent": "OAuth gem v0.4.4",\
-     "Content-Type": "application/x-www-form-urlencoded","Authorization": auth_head, "status": status, "media_ids": "471592142565957632"}
+     "Content-Type": "application/x-www-form-urlencoded","Authorization": auth_head, "status": status, "media_ids": image_id, "attachment_url": "https://twitter.com/papi_ahmedd/status/974087807739351042"}
+
 
     if debug:
          #conn = http.client.HTTPConnection("localhost:9001")
@@ -170,11 +178,6 @@ def sendTweet():
         print(r.status_code, r.reason)
         #conn.request("POST", "/1.1/statuses/update.json?", "status="+encoded_status, headers)
         #resp, content = client.request("'https://api.twitter.com/1.1/statuses/update.json?", method="POST", body=status, headers=headers )
-
-    response = conn.getresponse()
-    data = response.read()
-    print("Response : "+ str(data))
-    conn.close()
 
 
 if __name__ == '__main__':
