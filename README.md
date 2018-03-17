@@ -1,5 +1,5 @@
 # Project
-Implemented the Twitter Api, and issue a tweet and a tweet with an Image using an HTTP Request
+Implemented Twitter Api over HTTPS, issue a tweet and an Image using an HTTP Request
 
 
 # To Run
