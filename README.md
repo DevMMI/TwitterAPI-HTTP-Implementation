@@ -1,6 +1,6 @@
 # Project
 Implemented Twitter Api over HTTPS, issue a tweet and an Image using an HTTP Request
-
+Image is pre-uploaded to twitter's servers, (handled with a twitter API)
 
 # To Run
 You'll have to create an application (2 mins: https://apps.twitter.com/) and have a usable twitter account
